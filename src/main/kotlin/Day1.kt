@@ -1,32 +1,33 @@
-object Day1 {
-  fun part1(text: String) =
-      text.let {
-        (it + it[0]).toCharArray()
-            .map { it.toString().toInt() }
-            .foldIndexed(0) { index, acc, value ->
-              if (index > 0 && value == it[index - 1].toString().toInt()) acc + value else acc
-            }
-      }
+class Day1
 
-  fun part2(text: String) =
-      text.toCharArray()
-          .map { it.toString().toInt() }
-          .foldIndexed(0) { index, acc, value ->
-            if (value == text[(index + (text.length / 2)) % text.length].toString().toInt()) acc + value else acc
-          }
-}
+fun day1a(text: String) =
+    (text + text[0]).intArray()
+        .foldIndexed(0) { index, acc, value ->
+          if (index > 0 && value == text[index - 1].int) acc + value else acc
+        }
+
+fun day1b(text: String) =
+    text.intArray()
+        .foldIndexed(0) { index, acc, value ->
+          if (value == text.oppositeCircularIndex(index)) acc + value else acc
+        }
+
+private fun String.oppositeCircularIndex(index: Int) =
+    this[(index + (this.length / 2)) % this.length].int
+
+
 
 fun main(args: Array<String>) {
-  val text = Day1::class.java.getResource("day1").readText()
-  assert(Day1.part1("1122") == 3)
-  assert(Day1.part1("1111") == 4)
-  assert(Day1.part1("1234") == 0)
-  assert(Day1.part1("91212129") == 9)
-  println(Day1.part1(text))
-  assert(Day1.part2("1212") == 6)
-  assert(Day1.part2("1221") == 0)
-  assert(Day1.part2("123425") == 4)
-  assert(Day1.part2("123123") == 12)
-  assert(Day1.part2("12131415") == 4)
-  println(Day1.part2(text))
+  val text = text(1)
+  assert(day1a("1122") == 3)
+  assert(day1a("1111") == 4)
+  assert(day1a("1234") == 0)
+  assert(day1a("91212129") == 9)
+  println(day1a(text))
+  assert(day1b("1212") == 6)
+  assert(day1b("1221") == 0)
+  assert(day1b("123425") == 4)
+  assert(day1b("123123") == 12)
+  assert(day1b("12131415") == 4)
+  println(day1b(text))
 }
